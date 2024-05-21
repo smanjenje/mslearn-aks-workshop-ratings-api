@@ -40,7 +40,7 @@ const connectOptions = {
   socketTimeoutMS: 45000, // Close sockets after 45 seconds of inactivity
 };
 
-if(process.env.MONGODB_URI == undefined) {
+if (process.env.MONGODB_URI == undefined) {
   console.error("process.env.MONGODB_URI is undefined. You need to provide the mongoDB connection information.");
 }
 
@@ -55,39 +55,39 @@ promise.then(
     var Site = mongoose.model("Site");
 
     // Check if the items are empty, insert mock data
-    Item.count({}, function(err, c) {
-	if(c === undefined || c == 0) {
+    Item.count({}, function (err, c) {
+      if (c === undefined || c == 0) {
         console.dir('No items found in the database. Loading data.');
         var itemsMock = require('./data/items.json');
-        Item.collection.insertMany(itemsMock, function(err,r) {
-          if(err) {
+        Item.collection.insertMany(itemsMock, function (err, r) {
+          if (err) {
             console.error('Error inserting items: ' + err);
           } else {
             console.dir('Items loaded.');
           }
         });
       } else {
-        console.dir( c + ' items found in the database. Skipping loading data.');
+        console.dir(c + ' items found in the database. Skipping loading data.');
       }
     });
 
     // Check if the sites are empty, insert mock data
-    Site.count({}, function(err, c) {
-	if(c === undefined || c == 0) {
+    Site.count({}, function (err, c) {
+      if (c === undefined || c == 0) {
         console.dir('No sites found in the database. Loading data. (tt)');
         var sitesMock = require('./data/sites.json');
-        Site.collection.insertMany(sitesMock, function(err,r) {
-          if(err) {
+        Site.collection.insertMany(sitesMock, function (err, r) {
+          if (err) {
             console.error('Error inserting sites: ' + err);
           } else {
             console.dir('Sites loaded.');
           }
         });
       } else {
-        console.dir( c + ' sites found in the database. Skipping loading data. (tt)');
+        console.dir(c + ' sites found in the database. Skipping loading data. (tt)');
       }
     });
-    
+
   }
 ).catch(
   err => {
@@ -103,13 +103,13 @@ var index = require('./routes/index');
 app.use('/', index);
 app.use('/api', items);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = err;
 
